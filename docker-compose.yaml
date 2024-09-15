@@ -1,5 +1,7 @@
 services:
   # Test container to make sure I can access database
+  # docker-compose build testing   
+  # docker-compose run --rm testing
   testing:
     build: ./backend
     command: sh -c "python testing.py"
