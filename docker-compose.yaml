@@ -7,6 +7,8 @@ services:
     command: sh -c "python testing.py"
     env_file:
       - .env
+    volumes:
+      - ./backend:/app
     networks:
       - my_network
     depends_on:
@@ -26,6 +28,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Updated database in docker container
       - ./backups:/backups  # Mount local folder for backups
+      - ./frontend:/app
     networks:
       - my_network
 

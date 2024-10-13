@@ -8,8 +8,9 @@ import os
 from dotenv import load_dotenv
 from database.database_commands import create_connection
 from game_data import cfb_teams_table, cfb_games_table, cfb_team_talent_table, cfb_recruiting_table, cfb_betting_lines_table, cfb_game_stats_table
-from models import model_loader
-import pprint
+from models import model_loader, predict_games
+from global_vars import Global
+from pprint import pprint
 
 
 
@@ -60,19 +61,28 @@ if connection:
 
     # Call every week to get the betting lines for a football game
     # for year in range (2013, 2025):
-    #     for week in range (1, 15):
-    #         cfb_betting_lines_table.get_betting_lines(connection, year, week)
+        # for week in range (1, 15):
+        #     cfb_betting_lines_table.get_betting_lines(connection, year, week)
+
+    # cfb_betting_lines_table.get_betting_lines(connection, Global.year, Global.week)
 
     # Call every week to get the game stats for a football game
     # for year in range (2001, 2025):
-    # for year in range (2015, 2025):
-    #     for week in range (1, 15):
-    #         cfb_game_stats_table.get_game_stats(connection, year, week)
+        # for week in range (1, 15):
+            # cfb_game_stats_table.get_game_stats(connection, year, week)
 
-    model = model_loader.model_loader(connection, model_columns(), 1, 'test', 'classification', 'target', 'desc')
+    # cfb_game_stats_table.get_game_stats(connection, Global.year, Global.week)
 
-    pprint(model)
 
+
+    # Creating models
+    user_model = model_loader.model_loader(connection, model_columns(), 1, 'test', 'classification', 'target', 'desc')
+    # pprint(user_model)
+    games = predict_games.predict_games(connection, Global.year, Global.week, 'classification', 'target', model_columns(), 'cfb_models/1_class_test.joblib', None)
+    # Iterate over the games dictionary
+    for game_id, game_data in games.items():
+        if game_data['home_team'] == 'Florida':
+            pprint(game_data)
 
 
     connection.close()
