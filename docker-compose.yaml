@@ -16,7 +16,9 @@ services:
 
   # PostgreSQL database service
   # To get updated data back on local machine: docker exec -t <container ID> pg_dump -U <username> -d <database name> > backups/backup.sql
-  # Put backup data back onto the docker container: Get-Content ./backups/backup.sql | docker exec -i <container ID> psql -U <username> -d <database name>
+  # Put backup data back onto the docker container: 
+  # WINDOWS: Get-Content ./backups/backup.sql | docker exec -i <container ID> psql -U <username> -d <database name>
+  # MAC: cat ./backups/backup.sql | docker exec -i <container ID> psql -U <username> -d <database_name>
   db:
     image: postgres
     environment:
